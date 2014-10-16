@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+require 'rubygems' if RUBY_VERSION < '1.9.0'
+require 'yaml'
+require 'json'
+
+begin
+  # read the data
+  input = ARGF.read
+  begin
+    # first try JSON parsing and printing YAML
+    puts JSON.parse(input).to_yaml
+    exit 0
+  rescue
+    # if it fails, try to parse YAML and print JSON
+    puts JSON.generate(YAML.load(input))
+    exit 0
+  end
+rescue
+  # if all steps fail...
+  puts 'Couln\'t parse data.'
+  exit 1
+end
+
